@@ -8,8 +8,7 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ proyecto.id }}</td>
+                <img src="{{ absolute_url(vich_uploader_asset(proyecto, 'imageFile')) }}" alt="Foto de {{ proyecto.id }}" width="100">
             </tr>
             <tr>
                 <th>Nombre</th>
@@ -34,7 +33,7 @@
                     <thead>
                         <th>{{ viajero.nombreCompleto }}</th>
                         <th>
-                            <img src="{{ vich_uploader_asset(viajero, 'imageFile') }}" alt="Foto de {{ viajero.nombreCompleto }}" width="100">
+                            <img src="{{ absolute_url(vich_uploader_asset(viajero, 'imageFile')) }}" alt="Foto de {{ viajero.nombreCompleto }}" width="100">
                         </th>
                     </thead>
                     <tbody>
@@ -75,6 +74,27 @@
                                 <td>No hay logística asignada.</td>
                             {% endfor %}
                         </tr>
+                        <tr>
+                            {% for actividad in viajero.actividades %}
+                                <table>
+                                    <thead>
+                                        <th>Actividades: </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Nombre: {{ actividad.nombre }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha: {{ actividad.fechaCelebracion ? actividad.fechaCelebracion|date('Y-m-d') : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lugar: {{ actividad.lugar }}</td>
+                                        </tr>
+                                </table>
+                            {% else %}
+                                <td>No hay actividades asignada.</td>
+                            {% endfor %}
+                        </tr>
                     </tbody>
                 </table>
             {% else %}
@@ -93,4 +113,10 @@
     <a href="{{ path('app_inicio') }}">Inicio</a>
 
     {{ include('proyecto/_delete_form.html.twig') }}
+
+    {% for viajero in proyecto.viajeros %}
+        <a href="{{ path('app_proyecto_pdf', {'id': proyecto.id, 'viajeroId': viajero.id}) }}" >
+            PDF de {{ viajero.nombreCompleto }}
+        </a>
+    {% endfor %}
 {% endblock %}

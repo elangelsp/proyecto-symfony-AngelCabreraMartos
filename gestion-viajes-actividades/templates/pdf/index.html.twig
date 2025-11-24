@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PdfController!{% endblock %}
+
+{% block body %}
+    <style>
+            body { 
+                font-family: DejaVu Sans, Arial, sans-serif; 
+                margin: 20px; 
+            }
+            h1 { 
+                color: #333; 
+                border-bottom: 2px solid #333; 
+                padding-bottom: 10px; 
+            }
+            table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                margin: 15px 0; 
+            }
+            th, td { 
+                padding: 10px; 
+                border: 1px solid #ddd; 
+                text-align: left; 
+            }
+            th { 
+                background-color: #f2f2f2; 
+                font-weight: bold; 
+                width: 30%; 
+            }
+            img { 
+                max-width: 150px; 
+                display: block; 
+                margin: 10px auto; 
+            }
+            .section { 
+                margin-top: 30px; 
+            }
+            h2 { 
+                color: #555; 
+                margin-top: 20px; 
+            }
+            h3 { 
+                color: #666; 
+                font-size: 16px; 
+                margin-top: 15px; 
+            }
+        </style>
+    </head>
+    <body>
+
+    <h1>Proyecto: {{ proyecto.nombre }}</h1>
+
+    <table>
+        {% if proyectoImagenPath %}
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <img src="{{ proyectoImagenPath }}" alt="Imagen del proyecto">
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>Descripción</th>
+            <td>{{ proyecto.descripcion }}</td>
+        </tr>
+    </table>
+
+    <div class="section">
+        <h2>Viajero: {{ viajero.nombreCompleto }}</h2>
+
+        {% if viajeroImagenPath %}
+            <img src="{{ viajeroImagenPath }}" alt="{{ viajero.nombreCompleto }}">
+        {% endif %}
+
+        <table>
+            <tr>
+                <th>Referencia</th>
+                <td>{{ viajero.referencia ?? 'Sin referencia' }}</td>
+            </tr>
+            <tr>
+                <th>Teléfono</th>
+                <td>{{ viajero.telefono }}</td>
+            </tr>
+            <tr>
+                <th>Ciudad</th>
+                <td>{{ viajero.ciudad }}</td>
+            </tr>
+            <tr>
+                <th>País</th>
+                <td>{{ viajero.pais }}</td>
+            </tr>
+        </table>
+
+        {% if viajero.logisticas is not empty %}
+            <h3>Logística</h3>
+            {% for logistic in viajero.logisticas %}
+                <table>
+                    <tr>
+                        <th>Tipo de Viaje</th>
+                        <td>{{ logistic.tipoViaje }}</td>
+                    </tr>
+                    <tr>
+                        <th>Destino</th>
+                        <td>{{ logistic.destinoLugar }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha Salida</th>
+                        <td>{{ logistic.salida ? logistic.salida|date('d/m/Y') : '-' }}</td>
+                    </tr>
+                </table>
+            {% endfor %}
+        {% else %}
+            <p><em>No hay logística asignada.</em></p>
+        {% endif %}
+
+        {% if viajero.actividades is not empty %}
+            <h3>Actividades</h3>
+            {% for actividad in viajero.actividades %}
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ actividad.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha</th>
+                        <td>{{ actividad.fechaCelebracion ? actividad.fechaCelebracion|date('d/m/Y') : '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lugar</th>
+                        <td>{{ actividad.lugar }}</td>
+                    </tr>
+                </table>
+            {% endfor %}
+        {% else %}
+            <p><em>No hay actividades asignadas.</em></p>
+        {% endif %}
+    </div>
+{% endblock %}
