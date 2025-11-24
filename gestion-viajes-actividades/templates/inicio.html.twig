@@ -7,14 +7,23 @@
 {% block javascripts %}{% endblock %}
 
 {% block body %}
-	<nav>
-		<ul>
-			<a href="{{ path('app_proyecto_index') }}">Proyectos</a>
-			<a href="{{ path('app_viajero_index') }}">Viajeros</a>
-		</ul>
-	</nav>
 	<main>
 		<h1>Bienvenido a Gestión de viajes y actividades</h1>
+
+		<h1>Menú de opciones:</h1>
+		<h3>
+			<a href="{{ path('app_proyecto_index') }}">Proyectos</a>
+		</h3>
+		<h3>
+			<a href="{{ path('app_viajero_index') }}">Viajeros</a>
+		</h3>
+		<h3>
+			<a href="{{ path('app_actividades_index') }}">Actividades</a>
+		</h3>
+		<h3>
+			<a href="{{ path('app_logistica_index') }}">Logistica</a>
+		</h3>
+
 	</main>
 {% endblock %}
 

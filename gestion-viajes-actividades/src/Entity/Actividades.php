@@ -31,7 +31,7 @@ class Actividades
         return $this->id;
     }
 
-    public function getViajeroId(): ?viajero
+    public function getViajeroId(): ?Viajero
     {
         return $this->viajero_id;
     }

@@ -8,7 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 #[ORM\Entity(repositoryClass: ProyectoRepository::class)]
+#[Vich\Uploadable]
 class Proyecto
 {
     #[ORM\Id]
@@ -21,6 +25,15 @@ class Proyecto
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $descripcion = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagen = null;
+
+    #[Vich\UploadableField(mapping: 'imagen', fileNameProperty: 'imagen')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * @var Collection<int, Viajero>
@@ -58,6 +71,30 @@ class Proyecto
     public function setDescripcion(string $descripcion): static
     {
         $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    public function setImageFile(?File $imageProyect = null): void
+    {
+        $this->imageFile = $imageProyect;
+
+        if (null !== $imageProyect) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(?string $imagen): static
+    {
+        $this->imagen = $imagen;
 
         return $this;
     }

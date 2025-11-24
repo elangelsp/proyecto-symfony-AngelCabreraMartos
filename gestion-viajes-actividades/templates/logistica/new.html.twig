@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Logistica{% endblock %}
+
+{% block body %}
+    <h1>Create new Logistica</h1>
+
+    {{ include('logistica/_form.html.twig') }}
+
+    <a href="{{ path('app_logistica_index') }}">back to list</a>
+{% endblock %}

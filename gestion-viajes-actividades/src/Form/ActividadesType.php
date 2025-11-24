@@ -2,24 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Proyecto;
+use App\Entity\Actividades;
+use App\Entity\viajero;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class ProyectoType extends AbstractType
+class ActividadesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('nombre')
-            ->add('descripcion')
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Foto del proyecto',
-                'required' => false,
-                'allow_delete' => true,
-                'download_uri' => false,
+            ->add('fecha_celebracion')
+            ->add('lugar')
+            ->add('viajero_id', EntityType::class, [
+                'class' => viajero::class,
+                'choice_label' => 'id',
             ])
         ;
     }
@@ -27,7 +27,7 @@ class ProyectoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Proyecto::class,
+            'data_class' => Actividades::class,
         ]);
     }
 }

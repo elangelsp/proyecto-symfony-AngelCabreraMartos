@@ -22,9 +22,75 @@
         </tbody>
     </table>
 
+    <table>
+        <thead>
+            <tr>
+                <th>Viajeros</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for viajero in proyecto.viajeros %}
+                <table>
+                    <thead>
+                        <th>{{ viajero.nombreCompleto }}</th>
+                        <th>
+                            <img src="{{ vich_uploader_asset(viajero, 'imageFile') }}" alt="Foto de {{ viajero.nombreCompleto }}" width="100">
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% if viajero.referencia is not empty %}
+                                <td>Referencia: {{ viajero.referencia }}</td>
+                            {% else %}
+                                <td>Sin referencia</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>{{ viajero.telefono }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ viajero.ciudad }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ viajero.pais }}</td>
+                        </tr>
+                        <tr>
+                            {% for logistic in viajero.logisticas %}
+                                <table>
+                                    <thead>
+                                        <th>Logistica: </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Tipo: {{ logistic.tipoViaje }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Destino: {{ logistic.destinoLugar }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha Salida: {{ logistic.salida ? logistic.salida|date('Y-m-d') : '' }}</td>
+                                        </tr>
+                                </table>
+                            {% else %}
+                                <td>No hay logística asignada.</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <tr>
+                    <td>No hay viajeros asignados.</td>
+                </tr>
+            {% endfor %}
+    </table>
+
+    
+
     <a href="{{ path('app_proyecto_index') }}">back to list</a>
 
     <a href="{{ path('app_proyecto_edit', {'id': proyecto.id}) }}">edit</a>
+
+    <a href="{{ path('app_inicio') }}">Inicio</a>
 
     {{ include('proyecto/_delete_form.html.twig') }}
 {% endblock %}
