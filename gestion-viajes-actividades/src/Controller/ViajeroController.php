@@ -30,6 +30,7 @@ final class ViajeroController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($viajero);
             $entityManager->flush();
 
@@ -57,6 +58,7 @@ final class ViajeroController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+   
             $entityManager->flush();
 
             return $this->redirectToRoute('app_viajero_index', [], Response::HTTP_SEE_OTHER);
@@ -78,4 +80,7 @@ final class ViajeroController extends AbstractController
 
         return $this->redirectToRoute('app_viajero_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    
+
 }

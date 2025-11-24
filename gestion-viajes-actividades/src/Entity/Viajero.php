@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\ViajeroRepository;
+use App\Entity\Proyecto;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 #[ORM\Entity(repositoryClass: ViajeroRepository::class)]
+#[Vich\Uploadable]
 class Viajero
 {
     #[ORM\Id]
@@ -18,7 +23,7 @@ class Viajero
 
     #[ORM\ManyToOne(inversedBy: 'viajeros')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?proyecto $proyecto_id = null;
+    private ?Proyecto $proyecto_id = null;
 
     #[ORM\Column(length: 40)]
     private ?string $nombre_completo = null;
@@ -37,6 +42,12 @@ class Viajero
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagen = null;
+
+    #[Vich\UploadableField(mapping: 'imagen', fileNameProperty: 'imagen')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * @var Collection<int, Logistica>
@@ -61,12 +72,12 @@ class Viajero
         return $this->id;
     }
 
-    public function getProyectoId(): ?proyecto
+    public function getProyectoId(): ?Proyecto
     {
         return $this->proyecto_id;
     }
 
-    public function setProyectoId(?proyecto $proyecto_id): static
+    public function setProyectoId(?Proyecto $proyecto_id): static
     {
         $this->proyecto_id = $proyecto_id;
 
@@ -143,6 +154,23 @@ class Viajero
         $this->imagen = $imagen;
 
         return $this;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+    public function setImageName(): ?string
+    {
+        return $this->imagen;
     }
 
     /**
