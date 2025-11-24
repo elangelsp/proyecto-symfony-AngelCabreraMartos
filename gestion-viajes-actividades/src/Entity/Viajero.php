@@ -44,9 +44,16 @@ class Viajero
     #[ORM\OneToMany(targetEntity: Logistica::class, mappedBy: 'viajero_id', orphanRemoval: true)]
     private Collection $logisticas;
 
+    /**
+     * @var Collection<int, Actividades>
+     */
+    #[ORM\OneToMany(targetEntity: Actividades::class, mappedBy: 'viajero_id', orphanRemoval: true)]
+    private Collection $actividades;
+
     public function __construct()
     {
         $this->logisticas = new ArrayCollection();
+        $this->actividades = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +169,36 @@ class Viajero
             // set the owning side to null (unless already changed)
             if ($logistica->getViajeroId() === $this) {
                 $logistica->setViajeroId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Actividades>
+     */
+    public function getActividades(): Collection
+    {
+        return $this->actividades;
+    }
+
+    public function addActividade(Actividades $actividade): static
+    {
+        if (!$this->actividades->contains($actividade)) {
+            $this->actividades->add($actividade);
+            $actividade->setViajeroId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActividade(Actividades $actividade): static
+    {
+        if ($this->actividades->removeElement($actividade)) {
+            // set the owning side to null (unless already changed)
+            if ($actividade->getViajeroId() === $this) {
+                $actividade->setViajeroId(null);
             }
         }
 

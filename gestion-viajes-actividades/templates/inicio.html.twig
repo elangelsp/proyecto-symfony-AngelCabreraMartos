@@ -7,9 +7,14 @@
 {% block javascripts %}{% endblock %}
 
 {% block body %}
+	<nav>
+		<ul>
+			<a href="{{ path('app_proyecto_index') }}">Proyectos</a>
+			<a href="{{ path('app_viajero_index') }}">Viajeros</a>
+		</ul>
+	</nav>
 	<main>
 		<h1>Bienvenido a Gestión de viajes y actividades</h1>
-		<p>Esta es la página de inicio. Aquí puedes añadir enlaces, menús o resumenes.</p>
 	</main>
 {% endblock %}
 
