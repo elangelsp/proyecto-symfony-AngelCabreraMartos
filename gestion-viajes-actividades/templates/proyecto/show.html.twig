@@ -34,6 +34,9 @@
                         <th>{{ viajero.nombreCompleto }}</th>
                         <th>
                             <img src="{{ absolute_url(vich_uploader_asset(viajero, 'imageFile')) }}" alt="Foto de {{ viajero.nombreCompleto }}" width="100">
+                            <a href="{{ path('app_proyecto_pdf', {'id': proyecto.id, 'viajeroId': viajero.id}) }}" >
+            PDF de {{ viajero.nombreCompleto }}
+        </a>
                         </th>
                     </thead>
                     <tbody>
@@ -114,9 +117,4 @@
 
     {{ include('proyecto/_delete_form.html.twig') }}
 
-    {% for viajero in proyecto.viajeros %}
-        <a href="{{ path('app_proyecto_pdf', {'id': proyecto.id, 'viajeroId': viajero.id}) }}" >
-            PDF de {{ viajero.nombreCompleto }}
-        </a>
-    {% endfor %}
 {% endblock %}

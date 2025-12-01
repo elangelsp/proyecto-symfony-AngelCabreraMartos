@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Actividades;
 use App\Form\ActividadesType;
 use App\Repository\ActividadesRepository;
+use App\Repository\ProyectoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,29 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ActividadesController extends AbstractController
 {
     #[Route(name: 'app_actividades_index', methods: ['GET'])]
-    public function index(ActividadesRepository $actividadesRepository): Response
-    {
+    public function index(ActividadesRepository $actividadesRepository, ProyectoRepository $proyectoRepository): Response
+    {   
+
+        $user = $this->getUser();
+
+        $proyectos = $proyectoRepository->findBy(['user' => $user]);
+
+        $viajeros = [];
+        foreach ($proyectos as $proyecto) {
+            foreach ($proyecto->getViajeros() as $v) {
+                $viajeros[] = $v;
+            }
+        }
+
+        $actividades = [];
+        foreach ($viajeros as $viajero) {
+            foreach ($viajero->getActividades() as $actividad) {
+                $actividades[] = $actividad;
+            }
+        }
+
         return $this->render('actividades/index.html.twig', [
-            'actividades' => $actividadesRepository->findAll(),
+            'actividades' => $actividades,
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Logistica;
 use App\Form\LogisticaType;
 use App\Repository\LogisticaRepository;
+use App\Repository\ProyectoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,29 @@ use Symfony\Component\Routing\Attribute\Route;
 final class LogisticaController extends AbstractController
 {
     #[Route(name: 'app_logistica_index', methods: ['GET'])]
-    public function index(LogisticaRepository $logisticaRepository): Response
+    public function index(LogisticaRepository $logisticaRepository, ProyectoRepository $proyectoRepository): Response
     {
+
+        $user = $this->getUser();
+
+        $proyectos = $proyectoRepository->findBy(['user' => $user]);
+
+        $viajeros = [];
+        foreach ($proyectos as $proyecto) {
+            foreach ($proyecto->getViajeros() as $v) {
+                $viajeros[] = $v;
+            }
+        }
+
+        $logisticas = [];
+        foreach ($viajeros as $viajero) {
+            foreach ($viajero->getLogisticas() as $logistica) {
+                $logisticas[] = $logistica;
+            }
+        }
+
         return $this->render('logistica/index.html.twig', [
-            'logisticas' => $logisticaRepository->findAll(),
+            'logisticas' => $logisticas,
         ]);
     }
 

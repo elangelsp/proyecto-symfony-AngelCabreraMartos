@@ -29,7 +29,8 @@ class ViajeroType extends AbstractType
             ])
             ->add('proyecto_id', EntityType::class, [
                 'class' => proyecto::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nombre',
+                'label' => 'Proyecto ',
             ])
         ;
     }

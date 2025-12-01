@@ -9,20 +9,18 @@
 {% block body %}
 	<main>
 		<h1>Bienvenido a Gestión de viajes y actividades</h1>
+		<nav>
+			{% if app.user %}
+				<a href="{{ path('app_proyecto_index') }}">Proyectos</a>
+				<a href="{{ path('app_logout') }}">Logout</a>
+				{{ app.user ? 'Conectado como: ' ~ app.user.username : 'No conectado' }}
+			{% else %}
+				<a href="{{ path('app_login') }}">Login</a>
+				<a href="{{ path('app_register') }}">Register</a>
+			{% endif %}
+		</nav>
 
-		<h1>Menú de opciones:</h1>
-		<h3>
-			<a href="{{ path('app_proyecto_index') }}">Proyectos</a>
-		</h3>
-		<h3>
-			<a href="{{ path('app_viajero_index') }}">Viajeros</a>
-		</h3>
-		<h3>
-			<a href="{{ path('app_actividades_index') }}">Actividades</a>
-		</h3>
-		<h3>
-			<a href="{{ path('app_logistica_index') }}">Logistica</a>
-		</h3>
+		
 
 	</main>
 {% endblock %}

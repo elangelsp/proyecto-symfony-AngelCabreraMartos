@@ -41,6 +41,10 @@ class Proyecto
     #[ORM\OneToMany(targetEntity: Viajero::class, mappedBy: 'proyecto_id', orphanRemoval: true)]
     private Collection $viajeros;
 
+    #[ORM\ManyToOne(inversedBy: 'proyectos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->viajeros = new ArrayCollection();
@@ -125,6 +129,18 @@ class Proyecto
                 $viajero->setProyectoId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

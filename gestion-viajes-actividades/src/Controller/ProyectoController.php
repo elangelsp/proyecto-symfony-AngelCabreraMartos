@@ -17,8 +17,11 @@ final class ProyectoController extends AbstractController
     #[Route(name: 'app_proyecto_index', methods: ['GET'])]
     public function index(ProyectoRepository $proyectoRepository): Response
     {
+
+        $proyectos = $proyectoRepository->findBy(['user' => $this->getUser()]);
+
         return $this->render('proyecto/index.html.twig', [
-            'proyectos' => $proyectoRepository->findAll(),
+            'proyectos' => $proyectos,
         ]);
     }
 
@@ -30,6 +33,8 @@ final class ProyectoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $proyecto->setUser($this->getUser());
+
             $entityManager->persist($proyecto);
             $entityManager->flush();
 

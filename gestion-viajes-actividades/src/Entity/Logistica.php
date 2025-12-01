@@ -37,12 +37,12 @@ class Logistica
         return $this->id;
     }
 
-    public function getViajeroId(): ?viajero
+    public function getViajeroId(): ?Viajero
     {
         return $this->viajero_id;
     }
 
-    public function setViajeroId(?viajero $viajero_id): static
+    public function setViajeroId(?Viajero $viajero_id): static
     {
         $this->viajero_id = $viajero_id;
 
